@@ -3,7 +3,7 @@ using System.Numerics;
 namespace Engine;
 
 /// <summary>
-/// Lightweight value-type handle to a body inside an <see cref="IPhysicsWorld"/>.
+/// Lightweight value-type handle to a body inside an <see cref="PhysicsWorld"/>.
 /// Safe to store on ECS components, copy by value, and use across frames; all operations
 /// are forwarded to the owning world via the embedded reference, so the underlying physics
 /// engine (BepuPhysics, etc.) is never exposed to user code.
@@ -18,7 +18,7 @@ namespace Engine;
 public readonly struct PhysicsBody : IEquatable<PhysicsBody>
 {
     /// <summary>The world that owns this body. <c>null</c> for the default/uninitialised handle.</summary>
-    public readonly IPhysicsWorld? World;
+    public readonly PhysicsWorld? World;
 
     /// <summary>Backend-specific handle identifier (Bepu BodyHandle.Value or StaticHandle.Value).</summary>
     public readonly int Handle;
@@ -26,8 +26,8 @@ public readonly struct PhysicsBody : IEquatable<PhysicsBody>
     /// <summary>Whether this handle refers to a dynamic, kinematic or static body.</summary>
     public readonly BodyKind Kind;
 
-    /// <summary>Constructs a body handle. Use <see cref="IPhysicsWorld"/> creation methods instead of calling this directly.</summary>
-    public PhysicsBody(IPhysicsWorld world, int handle, BodyKind kind)
+    /// <summary>Constructs a body handle. Use <see cref="PhysicsWorld"/> creation methods instead of calling this directly.</summary>
+    public PhysicsBody(PhysicsWorld world, int handle, BodyKind kind)
     {
         World = world;
         Handle = handle;
@@ -100,14 +100,18 @@ public readonly struct PhysicsBody : IEquatable<PhysicsBody>
     public void Destroy() => World!.Destroy(this);
 
     /// <inheritdoc />
-    public bool Equals(PhysicsBody other) => ReferenceEquals(World, other.World) && Handle == other.Handle && Kind == other.Kind;
+    public bool Equals(PhysicsBody other) =>
+        ReferenceEquals(World, other.World) && Handle == other.Handle && Kind == other.Kind;
+
     /// <inheritdoc />
     public override bool Equals(object? obj) => obj is PhysicsBody b && Equals(b);
+
     /// <inheritdoc />
     public override int GetHashCode() => HashCode.Combine(Handle, (int)Kind);
+
     /// <summary>Equality operator.</summary>
     public static bool operator ==(PhysicsBody a, PhysicsBody b) => a.Equals(b);
+
     /// <summary>Inequality operator.</summary>
     public static bool operator !=(PhysicsBody a, PhysicsBody b) => !a.Equals(b);
 }
-

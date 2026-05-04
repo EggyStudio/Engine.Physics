@@ -23,7 +23,6 @@ public sealed class PhysicsSettings
     /// <summary>Maximum number of fixed steps consumed per frame to avoid the spiral of death. Default 8.</summary>
     public int MaxStepsPerFrame { get; set; } = 8;
 
-    /// <summary>Number of worker threads used by the simulation. <c>0</c> = <c>Environment.ProcessorCount</c>.</summary>
-    public int WorkerThreads { get; set; } = 0;
+    /// <summary>Number of worker threads used by the simulation. <c>0</c> = <c>Environment.ProcessorCount - 1</c>. Default 1 (deterministic, test-friendly).</summary>
+    public int WorkerThreads { get; set; } = 1;
 }
-
