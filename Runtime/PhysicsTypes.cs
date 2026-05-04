@@ -19,7 +19,12 @@ public struct PhysicsMaterial
 
     /// <summary>Default material: friction 1, restitution 0, no damping.</summary>
     public static PhysicsMaterial Default => new()
-        { Friction = 1f, Restitution = 0f, LinearDamping = 0f, AngularDamping = 0f };
+    {
+        Friction = 1f, 
+        Restitution = 0f, 
+        LinearDamping = 0f, 
+        AngularDamping = 0f
+    };
 }
 
 /// <summary>Result of an <see cref="PhysicsWorld.Raycast(Vector3,Vector3,float,out RaycastHit)"/>.</summary>

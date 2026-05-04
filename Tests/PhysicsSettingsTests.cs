@@ -56,4 +56,3 @@ public class PhysicsMaterialTests
         m.AngularDamping.Should().Be(0f);
     }
 }
-
